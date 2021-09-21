@@ -45,3 +45,12 @@ PUT users/_create/4
 # Read a document
 Syntax:
 GET Name-of-the-Index/_doc/id
+
+# Update doc
+
+POST users/_update/1 
+{
+  "doc": {
+    "name": "Dércio Sinione"
+  }
+}
