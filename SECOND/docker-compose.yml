@@ -12,6 +12,7 @@ services:
         hard: -1
     volumes:
       # - data01:/usr/share/elasticsearch/data
+      # - ./es01:/usr/share/elasticsearch/data
       - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
