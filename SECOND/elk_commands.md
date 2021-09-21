@@ -42,6 +42,14 @@ PUT users/_create/4
   "email": "osvaldo.mateus@drcash.com.br"
 }
 
+
+PUT users/_create/5
+{
+  "cpf" : "0872434",
+  "name": "Osvaldo Mateus",
+  "email": "osvaldo.mateus@drcash.com.br"
+}
+
 # Read a document
 Syntax:
 GET Name-of-the-Index/_doc/id
@@ -54,3 +62,7 @@ POST users/_update/1
     "name": "Dércio Sinione"
   }
 }
+
+# Delete a document
+Syntax:
+  DELETE Name-of-the-Index/_doc/id
