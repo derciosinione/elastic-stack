@@ -1,31 +1,42 @@
-version: '3.7'
-
+version: '2.2'
 services:
-  es01:
+  elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.14.1
-    container_name: es01
+    container_name: elasticsearch
     environment:
-      - node.name=es01
-      - cluster.name=es-docker-cluster
-      - cluster.initial_master_nodes=es01
-      - bootstrap.memory_lock=true
-      - 'ES_JAVA_OPTS=-Xms512m -Xmx512m'
+      - xpack.security.enabled=false
+      - discovery.type=single-node
     ulimits:
       memlock:
         soft: -1
         hard: -1
     volumes:
-      - ./es01:/usr/share/elasticsearch/data
+      - elasticsearch-data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+      - 9300:9300
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.14.1
     container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.14.1
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
       - 5601:5601
-    volumes:
-      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
-    environment:
-      ELASTICSEARCH_URL: http://es01:9200
-      ELASTICSEARCH_HOSTS: '["http://es01:9200"]'
+    depends_on:
+      - elasticsearch
+
+  # nginx:
+  #   image: derciosinione/ngnix-beats:latest
+  #   container_name: nginx-beats
+  #   build: ./nginx
+  #   # volumes:
+  #   #   - nginx-data:/nginxdata
+  #   ports:
+  #     - 9000:80
+
+volumes:
+  elasticsearch-data:
+    driver: local
+  # nginx-data:
+  #   driver: local
